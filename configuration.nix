@@ -75,11 +75,11 @@ systemd.user.services.kiosk-browser = {
     '';
 
     ExecStart = ''
-      ${pkgs.chromium}/bin/chromium \
+    ${pkgs.chromium}/bin/chromium \
         --kiosk \
-        --incognito \
         --noerrdialogs \
         --disable-infobars \
+        --user-data-dir=/home/kiosk/.config/chromium-kiosk \
         https://youngones.freshdesk.com/a/dashboard/36000006806
     '';
 
