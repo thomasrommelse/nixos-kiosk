@@ -60,7 +60,6 @@
   environment.systemPackages = with pkgs; [
     chromium
     git
-    curl
   ];
 
 #####################################
