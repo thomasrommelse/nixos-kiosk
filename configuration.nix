@@ -62,21 +62,26 @@
     git
   ];
 
-  #####################################
-  # Declarative Openbox autostart
-  #####################################
-  environment.etc."xdg/openbox/autostart".text = ''
-    xset -dpms
-    xset s off
-    xset s noblank
+#####################################
+# Kiosk browser (systemd user service)
+#####################################
+systemd.user.services.kiosk-browser = {
+  description = "Chromium Kiosk Browser";
+  wantedBy = [ "graphical-session.target" ];
 
-    ${pkgs.chromium}/bin/chromium \
-      --kiosk \
-      --incognito \
-      --noerrdialogs \
-      --disable-infobars \
-      https://youngones.freshdesk.com/a/dashboard/36000006806 &
-  '';
+  serviceConfig = {
+    ExecStart = ''
+      ${pkgs.chromium}/bin/chromium \
+        --kiosk \
+        --incognito \
+        --noerrdialogs \
+        --disable-infobars \
+        https://youngones.freshdesk.com/a/dashboard/36000006806
+    '';
+    Restart = "always";
+    RestartSec = 5;
+  };
+};
 
   #####################################
   # SSH
