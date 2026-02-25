@@ -69,7 +69,7 @@ environment.systemPackages = with pkgs; [
 
     src = pkgs.fetchurl {
       url = "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.AppImage";
-      sha256 = pkgs.lib.fakeSha256;
+      sha256 = "sha256-MJgb50KBY3mA2CcSOuUHRZh9U4wMjZniCJZ6eueU4=";
     };
 
     dontUnpack = true;
