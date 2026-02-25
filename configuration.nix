@@ -55,19 +55,30 @@
   security.sudo.wheelNeedsPassword = false;
 
 #####################################
-# Installed software
+# RustDesk (AppImage, simple method)
 #####################################
+
 environment.systemPackages = with pkgs; [
   chromium
   git
   curl
 
-  (pkgs.appimageTools.wrapType2 {
-    name = "rustdesk";
+  (pkgs.stdenv.mkDerivation {
+    pname = "rustdesk";
+    version = "1.2.3";
+
     src = pkgs.fetchurl {
       url = "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.AppImage";
-      sha256 = "sha256-REALHASHFROMERROR";
+      sha256 = pkgs.lib.fakeSha256;
     };
+
+    dontUnpack = true;
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src $out/bin/rustdesk
+      chmod +x $out/bin/rustdesk
+    '';
   })
 ];
 
