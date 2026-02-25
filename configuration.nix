@@ -89,36 +89,6 @@ systemd.user.services.kiosk-browser = {
   };
 };
 
-#####################################
-# RustDesk (prebuilt binary)
-#####################################
-
-environment.systemPackages = with pkgs; [
-  chromium
-  git
-  curl
-];
-
-system.activationScripts.installRustDesk.text = ''
-  mkdir -p /opt/rustdesk
-  if [ ! -f /opt/rustdesk/rustdesk ]; then
-    curl -L https://github.com/rustdesk/rustdesk/releases/latest/download/rustdesk-1.2.3-x86_64.AppImage \
-      -o /opt/rustdesk/rustdesk
-    chmod +x /opt/rustdesk/rustdesk
-  fi
-'';
-
-systemd.user.services.rustdesk = {
-  description = "RustDesk Client";
-  wantedBy = [ "graphical-session.target" ];
-
-  serviceConfig = {
-    ExecStart = "/opt/rustdesk/rustdesk";
-    Restart = "always";
-    RestartSec = 5;
-  };
-};
-
   #####################################
   # SSH
   #####################################
