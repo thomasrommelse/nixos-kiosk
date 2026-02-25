@@ -63,21 +63,15 @@
   ];
 
 #####################################
-# Kiosk browser (systemd user service)
+# Kiosk browser (stable version)
 #####################################
 systemd.user.services.kiosk-browser = {
   description = "Chromium Kiosk Browser";
   wantedBy = [ "graphical-session.target" ];
-  after = [ "network-online.target" ];
-  wants = [ "network-online.target" ];
 
   serviceConfig = {
     ExecStartPre = ''
-      ${pkgs.bash}/bin/bash -c '
-        until ${pkgs.iputils}/bin/ping -c1 youngones.freshdesk.com; do
-          sleep 2
-        done
-      '
+      ${pkgs.coreutils}/bin/sleep 8
     '';
 
     ExecStart = ''
