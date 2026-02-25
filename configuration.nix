@@ -58,7 +58,6 @@
   #####################################
   environment.systemPackages = with pkgs; [
     chromium
-    rustdesk
   ];
 
   #####################################
