@@ -61,25 +61,6 @@
 environment.systemPackages = with pkgs; [
   chromium
   git
-  curl
-
-  (pkgs.stdenv.mkDerivation {
-    pname = "rustdesk";
-    version = "1.2.3";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.AppImage";
-      sha256 = "sha256-MJgb50KBY3mA2CcSOuUHRZh9U4wMjZniCJZ6eueU4=";
-    };
-
-    dontUnpack = true;
-
-    installPhase = ''
-      mkdir -p $out/bin
-      cp $src $out/bin/rustdesk
-      chmod +x $out/bin/rustdesk
-    '';
-  })
 ];
 
 #####################################
