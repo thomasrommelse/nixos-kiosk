@@ -5,7 +5,7 @@
     [ ./hardware-configuration.nix ];
 
   #####################################
-  # Allow unfree packages (RustDesk)
+  # Allow unfree packages
   #####################################
   nixpkgs.config.allowUnfree = true;
 
@@ -18,16 +18,15 @@
   #####################################
   # Basic system settings
   #####################################
-  networking.hostName = "tv-dashboard-1";  # Change per TV if needed
+  networking.hostName = "tv-dashboard-1";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Amsterdam";  # Adjust if needed
+  time.timeZone = "Europe/Amsterdam";
 
   #####################################
   # X11 + Display
   #####################################
   services.xserver.enable = true;
-
   services.xserver.displayManager.lightdm.enable = true;
 
   services.displayManager.autoLogin.enable = true;
@@ -35,7 +34,9 @@
 
   services.xserver.windowManager.openbox.enable = true;
 
+  #####################################
   # Disable screen blanking
+  #####################################
   services.xserver.displayManager.sessionCommands = ''
     xset -dpms
     xset s off
@@ -61,17 +62,27 @@
   ];
 
   #####################################
-  # SSH (remote fallback access)
+  # Declarative Openbox autostart
+  #####################################
+  environment.etc."xdg/openbox/autostart".text = ''
+    xset -dpms
+    xset s off
+    xset s noblank
+
+    ${pkgs.chromium}/bin/chromium \
+      --kiosk \
+      --incognito \
+      --noerrdialogs \
+      --disable-infobars \
+      https://youngones.freshdesk.com/a/dashboard/36000006806 &
+  '';
+
+  #####################################
+  # SSH
   #####################################
   services.openssh.enable = true;
 
-  #####################################
-  # Firewall
-  #####################################
   networking.firewall.enable = true;
 
-  #####################################
-  # System version
-  #####################################
   system.stateVersion = "25.11";
 }
