@@ -5,6 +5,11 @@
     [ ./hardware-configuration.nix ];
 
   #####################################
+  # Allow unfree packages (RustDesk)
+  #####################################
+  nixpkgs.config.allowUnfree = true;
+
+  #####################################
   # Bootloader (UEFI)
   #####################################
   boot.loader.systemd-boot.enable = true;
@@ -13,10 +18,10 @@
   #####################################
   # Basic system settings
   #####################################
-  networking.hostName = "tv-dashboard-1";  # Change per machine if needed
+  networking.hostName = "tv-dashboard-1";  # Change per TV if needed
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Amsterdam";  # Change if needed
+  time.timeZone = "Europe/Amsterdam";  # Adjust if needed
 
   #####################################
   # X11 + Display
@@ -24,8 +29,9 @@
   services.xserver.enable = true;
 
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "kiosk";
+
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "kiosk";
 
   services.xserver.windowManager.openbox.enable = true;
 
@@ -48,7 +54,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   #####################################
-  # Software
+  # Installed software
   #####################################
   environment.systemPackages = with pkgs; [
     chromium
@@ -61,12 +67,12 @@
   services.openssh.enable = true;
 
   #####################################
-  # Firewall (optional)
+  # Firewall
   #####################################
   networking.firewall.enable = true;
 
   #####################################
-  # NixOS version
+  # System version
   #####################################
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.11";
 }
