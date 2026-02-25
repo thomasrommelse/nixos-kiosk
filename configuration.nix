@@ -88,6 +88,37 @@ systemd.user.services.kiosk-browser = {
   };
 };
 
+#####################################
+# RustDesk (AppImage, wrapped)
+#####################################
+
+let
+  rustdeskAppImage = pkgs.appimageTools.wrapType2 {
+    name = "rustdesk";
+    src = pkgs.fetchurl {
+      url = "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.AppImage";
+      sha256 = pkgs.lib.fakeSha256;
+    };
+  };
+in
+{
+  environment.systemPackages = with pkgs; [
+    chromium
+    git
+    rustdeskAppImage
+  ];
+
+  systemd.user.services.rustdesk = {
+    description = "RustDesk Client";
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${rustdeskAppImage}/bin/rustdesk";
+      Restart = "always";
+      RestartSec = 5;
+    };
+  };
+}
+
   #####################################
   # SSH
   #####################################
